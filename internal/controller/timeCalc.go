@@ -12,22 +12,23 @@ func CalcTime(c *gin.Context) {
 	strBreak := c.Query("break")
 
 	startTime, err := strconv.Atoi(strStartTime)
-	if err != nil || {
+	if err != nil || startTime >= 24 || startTime <= 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid starttime"})
+		return
 	}
 
 	endTime, err := strconv.Atoi(strEndTime)
-	if err != nil {
+	if err != nil || endTime >= 24 || endTime <= 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid endtime'"})
 		return
 	}
 
 	breakTime, err := strconv.Atoi(strBreak)
-	if err != nil {
+	if err != nil || breakTime >= 24 || breakTime >= 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid break time"})
 	}
 
-	sum := a + b
+	worktime := 24 - startTime - (-24 + endTime) - breakTime
 
-	c.JSON(http.StatusOK, gin.H{"sum": sum})
+	c.JSON(http.StatusOK, gin.H{"worktime": worktime})
 }
